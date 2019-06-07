@@ -24,38 +24,15 @@
 #
 # In the second example Polycarpus can cut the ribbon in such way: the first piece has length 5, the second piece has length 2.
 n,a,b,c = [int(x) for x in input().split()]
-dp = [0]*(n+1)
+dp = [-1]*(n+1)
 dp[0] = 0
-res = [a,b,c]
-res.sort()
-A = res[0]
-B = res[1]
-C = res[2]
 for i in range(1,n+1):
-    if i>A:
-        if dp[i-A]!=0 and dp[i-B]!=0 and dp[i-C]!=0:
-            dp[i] = max(1+dp[i-B],1+dp[i-C])
-        elif dp[i-B]!=0:
-            dp[i] = 1 + dp[i-B]
-        elif dp[i-C]!=0:
-            dp[i] = 1 + dp[i-C]
-        else:
-            dp[i] = 0
-        dp[i] = max(1+dp[i-A],1+dp[i-B],1+dp[i-C])
-    elif i>B:
-        if dp[i-B]!=0 and dp[i-C]!=0:
-            dp[i] = max(1+dp[i-B],1+dp[i-C])
-        elif dp[i-B]!=0:
-            dp[i] = 1 + dp[i-B]
-        elif dp[i-C]!=0:
-            dp[i] = 1 + dp[i-C]
-        else:
-            dp[i] = 0
-    elif i>C:
-        if dp[i-C] != 0:
-            dp[i] = 1+dp[i-C]
-        else:
-            dp[i] = 0
-    else:
-        dp[i] = 0
-print(dp[1:])
+    A = B = C = -1
+    if i-a>=0 and dp[i-a]!= -1:
+        A = 1 + dp[i-a]
+    if i-b>=0 and dp[i-b] != -1:
+        B = 1 + dp[i-b]
+    if i-c>=0 and dp[i-c] != -1:
+        C = 1 + dp[i-c]
+    dp[i] = max(dp[i],A,B,C)
+print(dp[-1])
